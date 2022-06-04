@@ -1,6 +1,51 @@
 const express = require('express');
 const router = express.Router();
 
+//assignment
+let players=[
+    {
+        "name":"Manish",
+        "dob":"1/1/1995",
+        "gender":"male",
+        "city":"jalandar",
+        "sports":["swimming"]
+    },
+    {
+        "name":"gopal",
+        "dob":"1/1/1993",
+        "gender":"male",
+        "city":"delhi",
+        "sports":["soccer"]
+    },
+    {
+        "name":"lokesh",
+        "dob":'1/1/1990',
+        "gender":"male",
+        "city":"mumbai",
+        "sports":["soccer"]
+    }
+
+]
+
+router.post('/players',function(req,res){
+    let newPlayer=req.body
+    flag=0
+    for(let i in players){
+        if(newPlayer.name===players[i].name){
+            flag=1
+            break;
+        }
+     }
+     if(flag==1){
+         return res.send("player already exist")
+     }
+     else{
+        players.push(newPlayer)
+        return res.send(players)
+     }
+   
+})
+
 router.get('/students/:name', function(req, res) {
     let studentName = req.params.name
     console.log(studentName)
