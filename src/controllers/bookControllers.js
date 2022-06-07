@@ -32,7 +32,7 @@ const getXINRBooks=async function(req,res){
 
 const getRandomBook=async function(req,res){
   //const val=req.body
-  let result=await bookuser.find({$or:[{stockAvailable:true},{totalPages:{$gt:500}}]})
+  let result=await bookuser.findOne({$or:[{stockAvailable:true},{totalPages:{$gt:500}}]})
   res.send({Yourbook:result})
 }
 module.exports.createBook=createBook
