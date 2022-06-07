@@ -4,7 +4,7 @@ const author = require('./author')
 const bookschema=mongoose.Schema({
     author_id:Number,
     name:String,
-    price:String,
+    price:Number,
     ratings:String
 },{timestamp:true});
 
