@@ -1,5 +1,5 @@
 //const { model } = require("mongoose")
-const bookuser=require("../models/bookUserModel")
+const bookUserModel=require("../models/bookUserModel")
 
 const createBook=async function(req,res){
     const detail=req.body
@@ -26,8 +26,8 @@ const getParticularBook=async function(req,res){
 
 const getXINRBooks=async function(req,res){
   //let result=await bookuser.find({"bookPrice.indianprice":"550INR"}).select({"bookprice.indianprice":1,_id:0})
-  let result=await bookuser.find({"bookPrice.indianprice":{$in:["100INR","200INR","500INR"]}})                                                                                                                                                                          
-  res.send({result:result})
+  let result=await bookUserModel.find({"bookprice.indianprice":{$in:["100INR","200INR","500INR"]}})                                                                                                                                                                          
+  res.send({msg:result})
 }
 
 const getRandomBook=async function(req,res){
