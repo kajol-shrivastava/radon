@@ -9,7 +9,7 @@ const bookSchema2=new mongoose.Schema({
     tags:[String],
     totalPages:Number,
     stockAvailable:Boolean,
-    year:Number
+    year:{type:Number,default:2021}
 },{timestamps:true});
 
 module.exports=mongoose.model("Bookuser",bookSchema2)

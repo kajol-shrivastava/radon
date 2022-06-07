@@ -25,12 +25,13 @@ const getParticularBook=async function(req,res){
 }
 
 const getXINRBooks=async function(req,res){
-  let result=await bookuser.find({"bookPrice.indianprice":"660INR"}).select({"bookprice.indianprice":1,_id:0})
+  //let result=await bookuser.find({"bookPrice.indianprice":"550INR"}).select({"bookprice.indianprice":1,_id:0})
+  let result=await bookuser.find({"bookPrice.indianprice":{$in:["100INR","200INR","500INR"]}})                                                                                                                                                                          
   res.send({result:result})
 }
 
 const getRandomBook=async function(req,res){
-  const val=req.body
+  //const val=req.body
   let result=await bookuser.find({$or:[{stockAvailable:true},{totalPages:{$gt:500}}]})
   res.send({Yourbook:result})
 }
