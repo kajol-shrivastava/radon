@@ -1,10 +1,11 @@
 const mongoose=require('mongoose')
 
 const authorscema= mongoose.Schema({
-    author_id:Number,
-    author_name:String,
+    authorName:String,
     age:Number,
     address:String,
+    rating: Number,
+
 },{timestamps:true});
 
-module.exports=mongoose.model("author",authorscema)
+module.exports=mongoose.model("newAuthor",authorscema)

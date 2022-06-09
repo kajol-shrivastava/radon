@@ -1,29 +1,22 @@
 const express = require('express');
 const router = express.Router();
-const UserModel= require("../models/userModel.js")
-const UserController= require("../controllers/userController")
-const authorbookController=require("../controllers/authorBookController")
+const authorController=require("../controllers/authorController")
+const pulisherController=require("../controllers/publisherController")
+const bookController=require("../controllers/bookController")
 
 router.get("/test-me", function (req, res) {
     res.send("My first ever api!")
 })
 
-router.post("/createUser", UserController.createUser  )
 
-router.get("/getUsersData", UserController.getUsersData)
-//assignment
-router.post('/createauthor',authorbookController.create)
+// //assignment
+ router.post('/createauthor',authorController.create)
+ router.post('/createpublisher',pulisherController.createpublisher)
+ router.post('/createbook',bookController.creatbook)
+ router.get('/getbooks',bookController.getbooks)
+router.put('/ishardcover',bookController.updated_field)
+router.put('/updatedprice',bookController.updated_price)
 
-router.post('/creatbook',authorbookController.createBook)
 
-router.get('/getBookBy',authorbookController.getBookByAuthor)
-
-router.get('/getUpdatedPrice',authorbookController.updatePrice)
- 
-router.get('/getBookByPrice',authorbookController.getBookByPrice)
-
-//assignmet on june 8
-router.get('/getbookbyid/:authorid',authorbookController.getBookById)
-router.get('/getauthor',authorbookController.getAuthor)
 
 module.exports = router;
