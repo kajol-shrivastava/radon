@@ -58,18 +58,7 @@ const getBookById=async function(req,res){
    }
 
    const getAuthor=async function(req,res){
-    //    const data= await author.find({age:{$gt:50}})
-    //    const result= await book.findOne({author_id:data.author_id})
-    //    let authordata={}
-    //    for (let i in data){
-    //    console.log(data[i])
-    //    let tempid=data.author_id
-    //    authordata[tempid]=[]
-    //    for(let x in result){
-    //        if(tempid==result.author_id)
-    //    authordata[tempid].push(result[x].name)
-    //     }}
-    //   res.send({msg:authordata})
+      
    }
 
 
