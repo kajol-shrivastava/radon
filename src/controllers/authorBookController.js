@@ -29,7 +29,7 @@ const getBookByAuthor=async function(req,res){
 }
 
 const updatePrice=async function(req,res){
-    let result=await book.findOneAndUpdate({name:"Two states"},{$set:{price:100}})
+    let result=await book.findOneAndUpdate({name:"Two states"},{$set:{price:100}},{new:true})
     let temp=result.author_id
      let nm=await author.findOne({author_id:temp}).select({author_name:1,_id:0})
     let updatePrice=result.price
@@ -46,8 +46,37 @@ const getBookByPrice=async function(req,res){
       }
     res.send({msg:bookByPrice})
 }
-module.exports.create=create
+
+const getBookById=async function(req,res){
+    const booklist={}
+    const id=req.params.authorid
+    const result=await book.find({author_id:id})
+    for(let i=0;i<result.length;i++){
+        booklist[i]=result[i].name
+    }
+    res.send({msg:booklist})
+   }
+
+   const getAuthor=async function(req,res){
+    //    const data= await author.find({age:{$gt:50}})
+    //    const result= await book.findOne({author_id:data.author_id})
+    //    let authordata={}
+    //    for (let i in data){
+    //    console.log(data[i])
+    //    let tempid=data.author_id
+    //    authordata[tempid]=[]
+    //    for(let x in result){
+    //        if(tempid==result.author_id)
+    //    authordata[tempid].push(result[x].name)
+    //     }}
+    //   res.send({msg:authordata})
+   }
+
+
+   module.exports.create=create
 module.exports.createBook=createBook
 module.exports.getBookByAuthor=getBookByAuthor
 module.exports.updatePrice=updatePrice
 module.exports.getBookByPrice=getBookByPrice
+module.exports.getBookById=getBookById
+module.exports.getAuthor=getAuthor

@@ -22,4 +22,8 @@ router.get('/getUpdatedPrice',authorbookController.updatePrice)
  
 router.get('/getBookByPrice',authorbookController.getBookByPrice)
 
+//assignmet on june 8
+router.get('/getbookbyid/:authorid',authorbookController.getBookById)
+router.get('/getauthor',authorbookController.getAuthor)
+
 module.exports = router;
