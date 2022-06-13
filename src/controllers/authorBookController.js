@@ -58,6 +58,12 @@ const getBookById=async function(req,res){
    }
 
    const getAuthor=async function(req,res){
+    let allauthor= await author.find({age:{$gt:50}})
+    let allbook=await book.find({ratings:{$gt:4}})
+    let allUsers=allauthor.filter(ele=>allbook.find(item=>item.author_id===ele.author_id))
+    let data = allUsers.map(ele=> (ele.author_name+" "+ele.age))
+   
+    res.send({msg: data})
       
    }
 
