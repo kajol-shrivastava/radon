@@ -2,9 +2,15 @@ const jwt = require("jsonwebtoken");
 const userModel = require("../models/userModel");
 
 const createUser = async function (req, res) {
-  let data = req.body;
+  try{let data = req.body;
+    if(Object.keys(data).length!=0){
   let savedData = await userModel.create(data);
-  res.send({ msg: savedData });
+  res.status(201).send({ msg: savedData });}
+  else res.status(400).send({msg:"Data not present"})
+  }
+  catch(err){
+    res.status(500).send({msg:err.message})
+  }
 };
 
 
@@ -15,7 +21,7 @@ const loginUser = async function (req, res) {
 
   let user = await userModel.findOne({ emailId: userName, password: password });
   if (!user)
-    return res.send({
+    return res.status(400).send({
       status: false,
       msg: "username or the password is not corerct",
     });
@@ -29,13 +35,13 @@ const loginUser = async function (req, res) {
   let token = jwt.sign(
     {
       userId: user._id.toString(),
-      batch: "Radon",
+      batch: "thorium",
       organisation: "FunctionUp",
     },
     "functionup-radon"
   );
   res.setHeader("x-auth-token", token);
-  res.send({ status: true, token: token });
+  res.status(200).send({ status: true, token: token });
 };
 
 
@@ -45,8 +51,8 @@ const getUserData = async function (req, res) {
   let userId = req.params.userId
    let userDetails = await userModel.findById(userId);
   if (!userDetails)
-    return res.send({ status: false, msg: "No such user exists" });
-res.send({ status: true, data: userDetails });
+    return res.status(400).send({ status: false, msg: "No such user exists" });
+res.status(200).send({ status: true, data: userDetails });
 };
 
 
@@ -57,12 +63,12 @@ let userId = req.params.userId;
   let user = await userModel.findById(userId);
   //Return an error if no user with the given id exists in the db
   if (!user) {
-    return res.send("No such user exists");
+    return res.status(400).send("No such user exists");
   }
 
   let userData = req.body;
   let updatedUser = await userModel.findOneAndUpdate({ _id: userId }, userData);
-  res.send({ status: true, data: updatedUser });
+  res.status(200).send({ status: true, data: updatedUser });
 };
 
 
@@ -74,11 +80,11 @@ const deleteuser=async function (req,res){
     let user = await userModel.findById(userId);
     //Return an error if no user with the given id exists in the db
     if (!user) {
-      return res.send("No such user exists");
+      return res.status(400).send("No such user exists");
     }
     const deleteuser={isDeleted:true}
     let updatedUser = await userModel.findOneAndUpdate({ _id: userId }, deleteuser);
-    res.send({ status: true, data: updatedUser });
+    res.status(200).send({ status: true, data: updatedUser });
 }
 
 module.exports.createUser = createUser;

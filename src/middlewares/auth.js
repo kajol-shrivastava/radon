@@ -1,20 +1,25 @@
 const jwt = require("jsonwebtoken");
 
 const authenticate=function(req,res,next){
-    let token=req.headers["x-Auth-Token"]
+   try{ let token=req.headers["x-Auth-Token"]
     if(!token){
       token=req.headers["x-auth-token"]}
     if(!token){
-      res.send({status:false,msg:"Token must be present"})
+      res.status(401).send({status:false,msg:"Token must be present"})
     }
     let decodedToken=jwt.verify(token,"functionup-radon")
+    console.log(decodedToken)
     if(!decodedToken){
-      res.send({status:false,msg:"Token is invalid"})
+      res.status(403).send({status:false,msg:"Token is invalid"})
     }
     
     else{
       
         next()
+    }}
+    catch(err){
+      console.log(err.message)
+      res.status(500).send({msg:err.message})
     }
 }
 
@@ -22,7 +27,7 @@ const authenticate=function(req,res,next){
 
 const authorise = function(req, res, next) {
   // comapre the logged in user's id and the id in request
-  let token=req.headers["x-Auth-Token"]
+  try{let token=req.headers["x-Auth-Token"]
     if(!token){
       token=req.headers["x-auth-token"]}
     if(!token){
@@ -38,13 +43,15 @@ let decodedToken=jwt.verify(token,"functionup-radon")
    let decodedid=decodedToken.userId
      //userId comparision to check if the logged-in user is requesting for their own data
   if(userId!=decodedid){
-  res.send({status:false,msg:"User logged is not allowed to modify the requested users data"})
+  res.status(403).send({status:false,msg:"User logged is not allowed to modify the requested users data"})
   }
   else{
    
       next()
-  }
-}
+  }}
+  catch(err){
+    res.status(500).send({msg:err.message})
+  }}
 
 module.exports.authenticate=authenticate
 module.exports.authorise=authorise
