@@ -10,16 +10,15 @@ const authenticate=function(req,res,next){
     let decodedToken=jwt.verify(token,"functionup-radon")
     console.log(decodedToken)
     if(!decodedToken){
-      res.status(403).send({status:false,msg:"Token is invalid"})
+      res.status(401).send({status:false,msg:"Token is invalid"})
     }
-    
     else{
       
         next()
     }}
     catch(err){
       console.log(err.message)
-      res.status(500).send({msg:err.message})
+      res.status(500).send({error:"server error",msg:err.message})
     }
 }
 
@@ -31,11 +30,11 @@ const authorise = function(req, res, next) {
     if(!token){
       token=req.headers["x-auth-token"]}
     if(!token){
-      res.send({status:false,msg:"Token must be present"})
+      res.status(401).send({status:false,msg:"Token must be present"})
     }
 let decodedToken=jwt.verify(token,"functionup-radon")
   if(!decodedToken){
-    res.send({status:false,msg:"Token is invalid"})
+    res.status(401).send({status:false,msg:"Token is invalid"})
   }
     //userId for which the request is made. 
    let userId=req.params.userId
@@ -50,7 +49,7 @@ let decodedToken=jwt.verify(token,"functionup-radon")
       next()
   }}
   catch(err){
-    res.status(500).send({msg:err.message})
+    res.status(500).send({error:"server error",msg:err.message})
   }}
 
 module.exports.authenticate=authenticate

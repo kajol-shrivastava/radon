@@ -16,6 +16,7 @@ const createUser = async function (req, res) {
 
 
 const loginUser = async function (req, res) {
+  try{
   let userName = req.body.emailId;
   let password = req.body.password;
 
@@ -35,30 +36,39 @@ const loginUser = async function (req, res) {
   let token = jwt.sign(
     {
       userId: user._id.toString(),
-      batch: "thorium",
+      batch: "radon",
       organisation: "FunctionUp",
     },
     "functionup-radon"
   );
   res.setHeader("x-auth-token", token);
-  res.status(200).send({ status: true, token: token });
+  res.status(200).send({ status: true, token: token });}
+  catch(err){
+    res.status(500).send({error:"server error",msg:err.message})
+  }
 };
 
 
 
 
 const getUserData = async function (req, res) {
+  try{
   let userId = req.params.userId
    let userDetails = await userModel.findById(userId);
   if (!userDetails)
-    return res.status(400).send({ status: false, msg: "No such user exists" });
+    return res.status(404).send({ status: false, msg: "No such user exists" });
 res.status(200).send({ status: true, data: userDetails });
+  }
+  catch(err){
+    res.status(500).send({msg:err.message})
+  }
 };
 
 
 
 
 const updateUser = async function (req, res) {
+  try{
 let userId = req.params.userId;
   let user = await userModel.findById(userId);
   //Return an error if no user with the given id exists in the db
@@ -69,13 +79,18 @@ let userId = req.params.userId;
   let userData = req.body;
   let updatedUser = await userModel.findOneAndUpdate({ _id: userId }, userData);
   res.status(200).send({ status: true, data: updatedUser });
+}
+catch(err){
+  res.status(500).send({msg:err.message})
+}
+
 };
 
 
 
 
 const deleteuser=async function (req,res){
- 
+ try{
     let userId = req.params.userId;
     let user = await userModel.findById(userId);
     //Return an error if no user with the given id exists in the db
@@ -85,6 +100,10 @@ const deleteuser=async function (req,res){
     const deleteuser={isDeleted:true}
     let updatedUser = await userModel.findOneAndUpdate({ _id: userId }, deleteuser);
     res.status(200).send({ status: true, data: updatedUser });
+}
+catch(err){
+  res.status(500).send({msg:err.message})
+}
 }
 
 module.exports.createUser = createUser;
