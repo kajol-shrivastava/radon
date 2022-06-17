@@ -34,7 +34,8 @@ const authorise = function(req, res, next) {
     }
 let decodedToken=jwt.verify(token,"functionup-radon")
   if(!decodedToken){
-    res.status(401).send({status:false,msg:"Token is invalid"})
+
+    return res.status(401).send({status:false,msg:"Token is invalid"})
   }
     //userId for which the request is made. 
    let userId=req.params.userId
